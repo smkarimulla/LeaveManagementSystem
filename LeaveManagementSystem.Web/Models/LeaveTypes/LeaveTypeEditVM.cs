@@ -2,9 +2,8 @@
 
 namespace LeaveManagementSystem.Web.Models.LeaveTypes
 {
-    public class LeaveTypeEditVM
-    {
-        public int Id { get; set; }
+    public class LeaveTypeEditVM: BaseLeaveTypes
+    {        
         [Required]
         [Length(4, 50, ErrorMessage = "You have violated the length requirements")]
         public string Name { get; set; } = string.Empty;
