@@ -1,7 +1,6 @@
-﻿namespace LeaveManagementSystem.Web.Models.LeaveTypes
+﻿namespace LeaveManagementSystem.Web.Models.LeaveTypes;
+
+public class BaseLeaveTypes
 {
-    public class BaseLeaveTypes
-    {
-        public int Id { get; set; }
-    }
+    public int Id { get; set; }
 }

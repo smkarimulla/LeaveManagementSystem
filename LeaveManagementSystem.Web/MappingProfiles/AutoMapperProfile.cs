@@ -1,17 +1,13 @@
-﻿using AutoMapper;
-using LeaveManagementSystem.Web.Data;
-using LeaveManagementSystem.Web.Models.LeaveTypes;
+﻿
+namespace LeaveManagementSystem.Web.MappingProfiles;
 
-namespace LeaveManagementSystem.Web.MappingProfiles
+public class AutoMapperProfile : Profile
 {
-    public class AutoMapperProfile: Profile
+    public AutoMapperProfile()
     {
-        public AutoMapperProfile() 
-        {
-            CreateMap<LeaveType, LeaveTypeReadOnlyVM>();
-            //.ForMember(dest=> dest.Day, opt=>opt.MapFrom(src=>src.NumberOfDays));
-            CreateMap<LeaveTypeCreateVM, LeaveType>();
-            CreateMap<LeaveTypeEditVM, LeaveType>().ReverseMap();
-        }
+        CreateMap<LeaveType, LeaveTypeReadOnlyVM>();
+        //.ForMember(dest=> dest.Day, opt=>opt.MapFrom(src=>src.NumberOfDays));
+        CreateMap<LeaveTypeCreateVM, LeaveType>();
+        CreateMap<LeaveTypeEditVM, LeaveType>().ReverseMap();
     }
 }

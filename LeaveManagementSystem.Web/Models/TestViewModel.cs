@@ -1,8 +1,7 @@
-﻿namespace LeaveManagementSystem.Web.Models
+﻿namespace LeaveManagementSystem.Web.Models;
+
+public class TestViewModel
 {
-    public class TestViewModel
-    {
-        public string? Name { get; set; }
-        public DateOnly DateOfBirth { get; set; }
-    }
+    public string? Name { get; set; }
+    public DateOnly DateOfBirth { get; set; }
 }

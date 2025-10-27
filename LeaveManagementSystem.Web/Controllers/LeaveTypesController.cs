@@ -13,11 +13,11 @@ using LeaveManagementSystem.Web.Services;
 
 namespace LeaveManagementSystem.Web.Controllers
 {
-    public class LeaveTypesController(ILeaveTypeyService leaveTypeService) : Controller
+    public class LeaveTypesController(ILeaveTypesService leaveTypeService) : Controller
     {
 
         public static string NameExistsValidationMessage = " This leave type exists in the database";
-        private readonly ILeaveTypeyService _leaveTypeService = leaveTypeService;
+        private readonly ILeaveTypesService _leaveTypeService = leaveTypeService;
 
 
         // GET: LeaveTypes
