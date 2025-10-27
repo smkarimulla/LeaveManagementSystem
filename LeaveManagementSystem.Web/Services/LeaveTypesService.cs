@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LeaveManagementSystem.Web.Services;
 
-public class LeaveTypesService(ApplicationDbContext _context, IMapper _mapper) : ILeaveTypeyService
+public class LeaveTypesService(ApplicationDbContext _context, IMapper _mapper) : ILeaveTypesService
 {
 
     public async Task<List<LeaveTypeReadOnlyVM>> GetAll()

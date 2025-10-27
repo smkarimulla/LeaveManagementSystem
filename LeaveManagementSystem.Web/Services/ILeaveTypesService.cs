@@ -2,7 +2,7 @@
 
 namespace LeaveManagementSystem.Web.Services
 {
-    public interface ILeaveTypeyService
+    public interface ILeaveTypesService
     {
         Task<bool> CheckLeaveTypeNameExists(string name);
         Task<bool> CheckLeaveTypeNameExistsinEdit(LeaveTypeEditVM leaveTypeEditVM);
