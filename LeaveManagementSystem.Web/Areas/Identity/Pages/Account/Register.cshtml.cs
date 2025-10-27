@@ -11,6 +11,7 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
         private readonly IUserStore<ApplicationUser> _userStore;
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
@@ -18,6 +19,7 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
+            RoleManager<IdentityRole> roleManager,
             IEmailSender emailSender)
         {
             _userManager = userManager;
@@ -25,6 +27,7 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
             _logger = logger;
+            this._roleManager = roleManager;
             _emailSender = emailSender;
         }
 
@@ -33,7 +36,7 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         [BindProperty]
-        public InputModel Input { get; set; }
+        public InputModel Input { get; set; } = new InputModel();
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -96,6 +99,9 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
             [Display(Name = "Date Of Birth")]
             public DateOnly DateOfBirth { get; set; }
 
+            public string RoleName { get; set; }
+            public string[] RoleNames { get; set; }
+
         }
 
 
@@ -103,6 +109,12 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
         {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            // Below code: Go to the database and fetch the roles 
+            var roles = await _roleManager.Roles
+                        .Select(q => q.Name)
+                        .Where(q => q != "Administrator")
+                        .ToArrayAsync();
+            Input.RoleNames = roles; // bound the roles for view
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -125,7 +137,16 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    var userId = await _userManager.GetUserIdAsync(user);
+                    if (Input.RoleName == "Supervisor")
+                    {
+                        await _userManager.AddToRolesAsync(user, ["Employee", "Supervisor"]);
+                    }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, "Employee");
+                    }
+
+                        var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
