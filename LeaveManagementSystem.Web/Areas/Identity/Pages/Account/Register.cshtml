@@ -42,7 +42,7 @@
                 <label asp-for="Input.ConfirmPassword">Confirm Password</label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-            @foreach(var role in Model.Input.RoleNames)
+            @foreach(var role in Model.RoleNames)
             {
                 <div class="form-check">
                     <input class="form-check-input" type="radio" asp-for="Input.RoleName" value="@role" />
