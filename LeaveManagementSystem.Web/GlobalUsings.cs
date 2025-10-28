@@ -22,3 +22,4 @@ global using AutoMapper;
 global using LeaveManagementSystem.Web.Models.LeaveTypes;
 global using LeaveManagementSystem.Web.Common;
 global using LeaveManagementSystem.Web.Services;
+global using System.ComponentModel.DataAnnotations.Schema;
