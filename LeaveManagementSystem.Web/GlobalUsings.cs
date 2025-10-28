@@ -20,3 +20,5 @@ global using Microsoft.EntityFrameworkCore;
 global using System.Security.Claims;
 global using AutoMapper;
 global using LeaveManagementSystem.Web.Models.LeaveTypes;
+global using LeaveManagementSystem.Web.Common;
+global using LeaveManagementSystem.Web.Services;
