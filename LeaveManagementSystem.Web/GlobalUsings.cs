@@ -20,6 +20,8 @@ global using Microsoft.EntityFrameworkCore;
 global using System.Security.Claims;
 global using AutoMapper;
 global using LeaveManagementSystem.Web.Models.LeaveTypes;
+global using LeaveManagementSystem.Web.Models.Period;
 global using LeaveManagementSystem.Web.Common;
 global using LeaveManagementSystem.Web.Services;
 global using System.ComponentModel.DataAnnotations.Schema;
+global using Microsoft.AspNetCore.Mvc.Rendering;

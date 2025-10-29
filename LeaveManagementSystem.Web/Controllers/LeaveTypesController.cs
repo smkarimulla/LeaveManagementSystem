@@ -1,4 +1,6 @@
-﻿namespace LeaveManagementSystem.Web.Controllers;
+﻿using LeaveManagementSystem.Web.Services.LeaveTypes;
+
+namespace LeaveManagementSystem.Web.Controllers;
 
 [Authorize(Roles = Roles.Administrator)]
 public class LeaveTypesController(ILeaveTypesService leaveTypeService) : Controller

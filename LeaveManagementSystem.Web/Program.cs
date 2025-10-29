@@ -1,4 +1,6 @@
-using LeaveManagementSystem.Web.Services;
+using LeaveManagementSystem.Web.Services.Email;
+using LeaveManagementSystem.Web.Services.LeaveTypes;
+using LeaveManagementSystem.Web.Services.Periods;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -17,6 +19,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<ILeaveTypesService, LeaveTypesService>();
+builder.Services.AddScoped<IPeriodsService, PeriodsService>();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 var app = builder.Build();

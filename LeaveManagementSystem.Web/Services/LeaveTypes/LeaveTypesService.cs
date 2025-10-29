@@ -1,4 +1,4 @@
-﻿namespace LeaveManagementSystem.Web.Services;
+﻿namespace LeaveManagementSystem.Web.Services.LeaveTypes;
 
 public class LeaveTypesService(ApplicationDbContext _context, IMapper _mapper) : ILeaveTypesService
 {
