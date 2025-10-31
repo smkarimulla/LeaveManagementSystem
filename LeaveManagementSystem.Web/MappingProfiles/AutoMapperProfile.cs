@@ -1,4 +1,6 @@
 ﻿
+using LeaveManagementSystem.Web.Models.LeaveAllocations;
+
 namespace LeaveManagementSystem.Web.MappingProfiles;
 
 public class AutoMapperProfile : Profile
@@ -11,8 +13,7 @@ public class AutoMapperProfile : Profile
         CreateMap<LeaveTypeEditVM, LeaveType>().ReverseMap();
 
         // Auto mapper for Period
-        CreateMap<Period, PeriodReadOnlyVM>();
-        CreateMap<PeriodCreateVM, Period>();
-        CreateMap<PeriodEditVM, Period>().ReverseMap();
+        CreateMap<LeaveAllocation, LeaveAllocationVM>();
+        CreateMap<Period, PeriodVM>().ReverseMap();                
     }
 }

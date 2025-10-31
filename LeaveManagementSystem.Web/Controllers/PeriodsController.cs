@@ -27,7 +27,7 @@ public class PeriodsController(IPeriodsService periodsService) : Controller
             return NotFound();
         }
 
-        var period = await _periodsService.Get<PeriodReadOnlyVM>(id.Value);
+        var period = await _periodsService.Get<PeriodVM>(id.Value);
         return View(period);
     }
 
@@ -43,18 +43,18 @@ public class PeriodsController(IPeriodsService periodsService) : Controller
     [HttpPost]
     [ValidateAntiForgeryToken]
     //public async Task<IActionResult> Create([Bind("Name,StartDate,EndDate,Id")] Period period)
-    public async Task<IActionResult> Create(PeriodCreateVM periodCreateVM)
+    public async Task<IActionResult> Create(PeriodVM periodVM)
     {
-        if (await _periodsService.CheckIfPeriodExists(periodCreateVM.Name))
+        if (await _periodsService.CheckIfPeriodExists(periodVM.Name))
         {
-            ModelState.AddModelError(nameof(periodCreateVM.Name), NameExistsValidationMessage);
+            ModelState.AddModelError(nameof(periodVM.Name), NameExistsValidationMessage);
         }
         if (ModelState.IsValid)
         {
-            await _periodsService.Create(periodCreateVM);
+            await _periodsService.Create(periodVM);
             return RedirectToAction(nameof(Index));
         }
-        return View(periodCreateVM);
+        return View(periodVM);
     }
 
     // GET: Periods/Edit/5
@@ -65,7 +65,7 @@ public class PeriodsController(IPeriodsService periodsService) : Controller
             return NotFound();
         }
         
-        var viewPeriod = await _periodsService.Get<PeriodEditVM>(id.Value);
+        var viewPeriod = await _periodsService.Get<PeriodVM>(id.Value);
 
         if (viewPeriod == null)
         {
@@ -79,27 +79,27 @@ public class PeriodsController(IPeriodsService periodsService) : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, PeriodEditVM periodEditVM)
+    public async Task<IActionResult> Edit(int id, PeriodVM periodVM)
     {
-        if (id != periodEditVM.Id)
+        if (id != periodVM.Id)
         {
             return NotFound();
         }
 
-        if(await _periodsService.CheckIfPeriodExistsForEdit(periodEditVM))
+        if(await _periodsService.CheckIfPeriodExistsForEdit(periodVM))
         {
-            ModelState.AddModelError(nameof(periodEditVM.Name), NameExistsValidationMessage);
+            ModelState.AddModelError(nameof(periodVM.Name), NameExistsValidationMessage);
         }
 
         if (ModelState.IsValid)
         {
             try
             {
-               await _periodsService.Edit(periodEditVM);
+               await _periodsService.Edit(periodVM);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!_periodsService.PeriodExists(periodEditVM.Id))
+                if (!_periodsService.PeriodExists(periodVM.Id))
                 {
                     return NotFound();
                 }
@@ -110,7 +110,7 @@ public class PeriodsController(IPeriodsService periodsService) : Controller
             }
             return RedirectToAction(nameof(Index));
         }
-        return View(periodEditVM);
+        return View(periodVM);
     }
 
     // GET: Periods/Delete/5
@@ -122,7 +122,7 @@ public class PeriodsController(IPeriodsService periodsService) : Controller
         }
 
 
-        var viewPeriod = await _periodsService.Get<PeriodReadOnlyVM>(id.Value);
+        var viewPeriod = await _periodsService.Get<PeriodVM>(id.Value);
         if (viewPeriod == null)
         {
             return NotFound();

@@ -2,10 +2,10 @@
 
 public class PeriodsService(ApplicationDbContext _context, IMapper _mapper) : IPeriodsService
 {
-    public async Task<List<PeriodReadOnlyVM>> GetAll()
+    public async Task<List<PeriodVM>> GetAll()
     {
         var data = await _context.Periods.ToListAsync();
-        var viewData = _mapper.Map<List<PeriodReadOnlyVM>>(data);
+        var viewData = _mapper.Map<List<PeriodVM>>(data);
         return viewData;
     }
 
@@ -20,14 +20,14 @@ public class PeriodsService(ApplicationDbContext _context, IMapper _mapper) : IP
         return viewData;
     }
 
-    public async Task Create(PeriodCreateVM periodCreateVM)
+    public async Task Create(PeriodVM periodCreateVM)
     {
         var period = _mapper.Map<Period>(periodCreateVM);
         _context.Add(period);
         await _context.SaveChangesAsync();
     }
 
-    public async Task Edit(PeriodEditVM periodEditVM)
+    public async Task Edit(PeriodVM periodEditVM)
     {
         var period = _mapper.Map<Period>(periodEditVM);
         _context.Update(period);
@@ -57,7 +57,7 @@ public class PeriodsService(ApplicationDbContext _context, IMapper _mapper) : IP
         return checkExists;
     }
 
-    public async Task<bool> CheckIfPeriodExistsForEdit(PeriodEditVM periodEditVM)
+    public async Task<bool> CheckIfPeriodExistsForEdit(PeriodVM periodEditVM)
     {
         var lowerCaseName = periodEditVM.Name.ToLower();
         var checkExists = await _context.Periods.AnyAsync(q => q.Name.ToLower().Equals(lowerCaseName));
