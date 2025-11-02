@@ -10,10 +10,6 @@ public class AutoMapperProfile : Profile
         CreateMap<LeaveType, LeaveTypeReadOnlyVM>();
         //.ForMember(dest=> dest.Day, opt=>opt.MapFrom(src=>src.NumberOfDays));
         CreateMap<LeaveTypeCreateVM, LeaveType>();
-        CreateMap<LeaveTypeEditVM, LeaveType>().ReverseMap();
-
-        // Auto mapper for Period
-        CreateMap<LeaveAllocation, LeaveAllocationVM>();
-        CreateMap<Period, PeriodVM>().ReverseMap();                
+        CreateMap<LeaveTypeEditVM, LeaveType>().ReverseMap();             
     }
 }
