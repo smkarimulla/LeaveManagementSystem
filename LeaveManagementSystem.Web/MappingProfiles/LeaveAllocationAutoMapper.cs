@@ -10,6 +10,7 @@ namespace LeaveManagementSystem.Web.MappingProfiles
         {
             // Auto mapper for Period
             CreateMap<LeaveAllocation, LeaveAllocationVM>();
+            CreateMap<LeaveAllocation, LeaveAllocationEditVM>();
             CreateMap<ApplicationUser, EmployeeVM>();
             CreateMap<Period, PeriodVM>().ReverseMap();
         }

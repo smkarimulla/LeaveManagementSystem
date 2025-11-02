@@ -82,7 +82,11 @@
                                 <div class="col text-black">
                                      <span class="badge rounded-pill bg-warning">@allocation.Days</span>
                                 </div>
-                                <div class="col text-black">
+                                <div class="col">
+                                    @if(isAdmin)
+                                    {
+                                        <a class="btn btn-warning" asp-action="EditAllocation" asp-route-id="@allocation.Id">Edit Allocation</a>
+                                    }
                                     <a asp-controller="LeaveRequest" asp-action="Create" class="btn btn-success">Request Leave</a>
                                 </div>
                             </div>
