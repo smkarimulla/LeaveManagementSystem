@@ -25,3 +25,4 @@ global using LeaveManagementSystem.Web.Common;
 global using LeaveManagementSystem.Web.Services;
 global using System.ComponentModel.DataAnnotations.Schema;
 global using Microsoft.AspNetCore.Mvc.Rendering;
+global using LeaveManagementSystem.Web.Models.LeaveRequests;
