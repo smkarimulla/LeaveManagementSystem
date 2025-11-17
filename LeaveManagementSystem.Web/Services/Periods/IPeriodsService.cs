@@ -9,6 +9,7 @@
         Task Edit(PeriodVM periodEditVM);
         Task<T?> Get<T>(int id) where T : class;
         Task<List<PeriodVM>> GetAll();
+        Task<Period> GetCurrentPeriod();
         bool PeriodExists(int id);
     }
 }
