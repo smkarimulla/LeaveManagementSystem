@@ -12,6 +12,14 @@ namespace LeaveManagementSystem.Web.Services.LeaveRequests
             var leaveRequest = await _context.LeaveRequests.FindAsync(leaveRequestId);
             leaveRequest.LeaveRequestStatusId = (int)LeaveRequestStatusEnum.Canceled;
 
+            // restore allocation days based on restart 
+            var numberOfDays = leaveRequest.EndDate.DayNumber - leaveRequest.StartDate.DayNumber;
+            var allocation = await _context.LeaveAllocations
+                                        .FirstAsync(q => q.LeaveTypeId == leaveRequest.LeaveTypeId 
+                                        && q.EmployeeId == leaveRequest.EmployeeId);
+
+            allocation.Days += numberOfDays;
+
             await _context.SaveChangesAsync();
         }
 
