@@ -28,6 +28,14 @@ builder.Services.AddScoped<ILeaveRequestsService, LeaveRequestsService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
+builder.Services.AddAuthorization(option =>
+{
+    option.AddPolicy("AdminSupervisorOnly", policy =>
+    {
+        policy.RequireRole(Roles.Administrator, Roles.Supervisor);
+    });
+});
+
 builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();

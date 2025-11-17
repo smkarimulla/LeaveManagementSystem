@@ -69,6 +69,7 @@ public class LeaveRequestController(ILeaveTypesService _leaveTypeService
         return View(model);
     }
     // Admin/Supe review requests
+    [Authorize(Policy = "AdminSupervisorOnly")]
     public async Task<IActionResult> Review(int id)
     {
         var model = await _leaveRequestsService.GetLeaveRequestForReview(id);
