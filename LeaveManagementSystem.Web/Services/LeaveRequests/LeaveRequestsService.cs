@@ -116,9 +116,25 @@ public class LeaveRequestsService(IMapper _mapper
         return allocationToDeduct.Days < numberOfDays;
     }
 
-    public Task ReviewLeaveRequests(ReviewLeaveRequestVM model)
+    public async Task ReviewLeaveRequests(int leaveRequestId, bool approved)
     {
-        throw new NotImplementedException();
+        var loggedInUser = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext?.User);
+        var leaveRequest = await _context.LeaveRequests.FindAsync(leaveRequestId);
+        leaveRequest.LeaveRequestStatusId = approved ? (int)LeaveRequestStatusEnum.Approved:(int)LeaveRequestStatusEnum.Canceled;
+
+        leaveRequest.ReviewerId = loggedInUser.Id;
+
+        if(!approved)
+        {
+            // restore allocation days based on restart 
+            var numberOfDays = leaveRequest.EndDate.DayNumber - leaveRequest.StartDate.DayNumber;
+            var allocation = await _context.LeaveAllocations
+                                        .FirstAsync(q => q.LeaveTypeId == leaveRequest.LeaveTypeId
+                                        && q.EmployeeId == leaveRequest.EmployeeId);
+
+            allocation.Days += numberOfDays;
+        }
+        await _context.SaveChangesAsync();
     }
 
     public async Task<ReviewLeaveRequestVM> GetLeaveRequestForReview(int id)
@@ -133,6 +149,7 @@ public class LeaveRequestsService(IMapper _mapper
             EndDate = leaveRequest.EndDate,
             Id = leaveRequest.Id,
             LeaveType = leaveRequest.LeaveType.Name,
+            RequestComments = leaveRequest.RequestComments,
             LeaveRequestStatus = (LeaveRequestStatusEnum)leaveRequest.LeaveRequestStatusId,
             NumberOfDays = leaveRequest.EndDate.DayNumber - leaveRequest.StartDate.DayNumber,
             Employee = new EmployeeVM

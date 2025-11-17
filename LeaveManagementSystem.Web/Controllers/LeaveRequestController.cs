@@ -67,14 +67,22 @@ public class LeaveRequestController(ILeaveTypesService _leaveTypeService
     {
         var model = await _leaveRequestsService.AdminGetAllLeaveRequests();
         return View(model);
-    }  
-    // Admin/Supe review requests 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
+    }
+    // Admin/Supe review requests
     public async Task<IActionResult> Review(int id)
     {
         var model = await _leaveRequestsService.GetLeaveRequestForReview(id);
         return View(model);
+    }
+
+    // Admin/Supe review requests 
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Review(int id, bool approved)
+    {
+        //var model = await _leaveRequestsService.GetLeaveRequestForReview(id);
+        await _leaveRequestsService.ReviewLeaveRequests(id, approved);
+        return RedirectToAction(nameof(AllLeaveRequestsList));
     }
 
 }
