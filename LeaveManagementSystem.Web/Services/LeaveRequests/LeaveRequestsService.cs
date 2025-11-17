@@ -13,10 +13,14 @@ public class LeaveRequestsService(IMapper _mapper
         leaveRequest.LeaveRequestStatusId = (int)LeaveRequestStatusEnum.Canceled;
 
         // restore allocation days based on restart 
+        // get the current period based on the year
+        var currentDate = DateTime.Now;
+        var period = await _context.Periods.SingleAsync(q => q.EndDate.Year == currentDate.Year);
         var numberOfDays = leaveRequest.EndDate.DayNumber - leaveRequest.StartDate.DayNumber;
         var allocation = await _context.LeaveAllocations
                                     .FirstAsync(q => q.LeaveTypeId == leaveRequest.LeaveTypeId 
-                                    && q.EmployeeId == leaveRequest.EmployeeId);
+                                    && q.EmployeeId == leaveRequest.EmployeeId
+                                    && q.PeriodId == period.Id);
 
         allocation.Days += numberOfDays;
 
@@ -36,12 +40,18 @@ public class LeaveRequestsService(IMapper _mapper
         leaveRequest.LeaveRequestStatusId = (int)LeaveRequestStatusEnum.Pending;
 
         // Save Leave Request 
-        _context.Add(leaveRequest);            
+        _context.Add(leaveRequest);
 
         // Deduct allocation days based on request
+        // get the current period based on the year
+        var currentDate = DateTime.Now;
+        var period = await _context.Periods.SingleAsync(q => q.EndDate.Year == currentDate.Year);
+
         var numberOfDays = model.EndDate.DayNumber - model.StartDate.DayNumber;
         var allocationToDeduct = await _context.LeaveAllocations
-                                    .FirstAsync(q => q.LeaveTypeId == model.LeaveTypeId && q.EmployeeId == user.Id);
+                                    .FirstAsync(q => q.LeaveTypeId == model.LeaveTypeId 
+                                    && q.EmployeeId == user.Id
+                                    && q.PeriodId == period.Id);
 
         allocationToDeduct.Days -= numberOfDays;
 
@@ -109,9 +119,14 @@ public class LeaveRequestsService(IMapper _mapper
         var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext?.User);
         // number of days
         var numberOfDays = model.EndDate.DayNumber - model.StartDate.DayNumber;
+        // get the current period based on the year
+        var currentDate = DateTime.Now;
+        var period = await _context.Periods.SingleAsync(q => q.EndDate.Year == currentDate.Year);
         // diff
         var allocationToDeduct = await _context.LeaveAllocations
-                                    .FirstAsync(q => q.LeaveTypeId == model.LeaveTypeId && q.EmployeeId == user.Id);
+                                    .FirstAsync(q => q.LeaveTypeId == model.LeaveTypeId 
+                                    && q.EmployeeId == user.Id
+                                    && q.PeriodId == period.Id);
 
         return allocationToDeduct.Days < numberOfDays;
     }
