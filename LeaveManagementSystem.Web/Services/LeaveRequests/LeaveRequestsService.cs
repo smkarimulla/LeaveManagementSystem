@@ -1,4 +1,6 @@
-﻿namespace LeaveManagementSystem.Web.Services.LeaveRequests;
+﻿using LeaveManagementSystem.Web.Data;
+
+namespace LeaveManagementSystem.Web.Services.LeaveRequests;
 
 public class LeaveRequestsService(IMapper _mapper
                                     , ApplicationDbContext _context
@@ -56,7 +58,7 @@ public class LeaveRequestsService(IMapper _mapper
         var pendingLeaveRequestsCount = leaveRequests.Count(q => q.LeaveRequestStatusId == (int)LeaveRequestStatusEnum.Pending);
         var cancelledLeaveRequestsCount = leaveRequests.Count(q => q.LeaveRequestStatusId == (int)LeaveRequestStatusEnum.Canceled);
 
-        var leaveRequestModel = leaveRequests.Select(q => new LeaveRequestsListVM
+        var leaveRequestModel = leaveRequests.Select(q => new LeaveRequestReadOnlyVM
         {
             StartDate = q.StartDate,
             EndDate = q.EndDate,
@@ -80,7 +82,7 @@ public class LeaveRequestsService(IMapper _mapper
     }
 
     // Get EMployee Leave Requests
-    public async Task<List<LeaveRequestsListVM>> GetEmployeeLeaveRequests()
+    public async Task<List<LeaveRequestReadOnlyVM>> GetEmployeeLeaveRequests()
     {
         var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext?.User);
         var leaveRequests = await _context.LeaveRequests
@@ -88,7 +90,7 @@ public class LeaveRequestsService(IMapper _mapper
             .Where(q => q.EmployeeId == user.Id)
             .ToListAsync();
 
-        var model = leaveRequests.Select(q => new LeaveRequestsListVM
+        var model = leaveRequests.Select(q => new LeaveRequestReadOnlyVM
         {
             StartDate = q.StartDate,
             EndDate = q.EndDate,
@@ -117,5 +119,31 @@ public class LeaveRequestsService(IMapper _mapper
     public Task ReviewLeaveRequests(ReviewLeaveRequestVM model)
     {
         throw new NotImplementedException();
+    }
+
+    public async Task<ReviewLeaveRequestVM> GetLeaveRequestForReview(int id)
+    {
+        var leaveRequest = await _context.LeaveRequests
+            .Include(q=>q.LeaveType)
+            .FirstAsync(q=>q.Id == id);
+        var loggedInUser = await _userManager.FindByIdAsync(leaveRequest.EmployeeId);
+        var model = new ReviewLeaveRequestVM
+        {
+            StartDate = leaveRequest.StartDate,
+            EndDate = leaveRequest.EndDate,
+            Id = leaveRequest.Id,
+            LeaveType = leaveRequest.LeaveType.Name,
+            LeaveRequestStatus = (LeaveRequestStatusEnum)leaveRequest.LeaveRequestStatusId,
+            NumberOfDays = leaveRequest.EndDate.DayNumber - leaveRequest.StartDate.DayNumber,
+            Employee = new EmployeeVM
+            {
+                Id = leaveRequest.EmployeeId,
+                Email = loggedInUser.Email,
+                FirstName = loggedInUser.FirstName,
+                LastName = loggedInUser.LastName
+            }
+        };
+        return model;
+
     }
 }

@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace LeaveManagementSystem.Web.Models.LeaveRequests
 {
-    public class LeaveRequestsListVM
+    public class LeaveRequestReadOnlyVM
     {
         public int Id { get; set; }
         [DisplayName("Start Date")]        
