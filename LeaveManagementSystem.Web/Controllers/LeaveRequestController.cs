@@ -18,10 +18,10 @@ public class LeaveRequestController(ILeaveTypesService _leaveTypeService
     }
 
     // Employee Create requests
-    public async Task<IActionResult> Create()
+    public async Task<IActionResult> Create(int? leaveTypeId)
     {
         var leaveTypes = await _leaveTypeService.GetAll();
-        var leaveTypesLists = new SelectList(leaveTypes, "Id", "Name");
+        var leaveTypesLists = new SelectList(leaveTypes, "Id", "Name", leaveTypeId);
         var model = new LeaveRequestCreateVM
         {
             StartDate = DateOnly.FromDateTime(DateTime.Now),
