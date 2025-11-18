@@ -2,7 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using LeaveManagementSystem.Web.Services.LeaveAllocations;
+using LeaveManagementSystem.Application.Services.LeaveAllocations;
+using LeaveManagementSystem.Common.Static;
 
 namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
 {
@@ -92,7 +93,7 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]            
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [Display(Name = "First Name")]
             public string FirstName { get; set; }
 
@@ -106,7 +107,7 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
             [Display(Name = "Date Of Birth")]
             public DateOnly DateOfBirth { get; set; }
 
-            public string RoleName { get; set; }            
+            public string RoleName { get; set; }
 
         }
 
@@ -145,7 +146,7 @@ namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
 
                     if (Input.RoleName == Roles.Supervisor)
                     {
-                        await _userManager.AddToRolesAsync(user, [Roles.Employee,Roles.Supervisor]);
+                        await _userManager.AddToRolesAsync(user, [Roles.Employee, Roles.Supervisor]);
                     }
                     else
                     {

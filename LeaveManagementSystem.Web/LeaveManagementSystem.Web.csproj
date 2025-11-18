@@ -7,18 +7,18 @@
     <UserSecretsId>aspnet-LeaveManagementSystem.Web-7189fa45-a106-41c2-b5e8-53b63cc6c85d</UserSecretsId>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="13.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.19" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.19" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.19" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.11" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.19" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.19">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+  <ItemGroup>    
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.19">
       <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>    
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
+	<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.19" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LeaveManagementSystem.Application\LeaveManagementSystem.Application.csproj" />
+    <ProjectReference Include="..\LeaveManagementSystem.Common\LeaveManagementSystem.Common.csproj" />
   </ItemGroup>
 
 </Project>

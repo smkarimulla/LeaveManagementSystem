@@ -1,13 +1,11 @@
-﻿using LeaveManagementSystem.Web.Models.LeaveRequests;
-using LeaveManagementSystem.Web.Services.LeaveRequests;
-using LeaveManagementSystem.Web.Services.LeaveTypes;
-using Microsoft.AspNetCore.Mvc;
+﻿using LeaveManagementSystem.Application.Services.LeaveRequests;
+using LeaveManagementSystem.Application.Services.LeaveTypes;
 
 namespace LeaveManagementSystem.Web.Controllers;
 
 [Authorize]
 public class LeaveRequestController(ILeaveTypesService _leaveTypeService
-                                    ,ILeaveRequestsService _leaveRequestsService) : Controller
+                                    , ILeaveRequestsService _leaveRequestsService) : Controller
 {
     // Employee View requests
     //LeaveRequest
@@ -37,7 +35,7 @@ public class LeaveRequestController(ILeaveTypesService _leaveTypeService
     public async Task<IActionResult> Create(LeaveRequestCreateVM model)
     {
         // Validate that the number of days don't exceed the allocation
-        if(await _leaveRequestsService.RequestDatesExceedAllocation(model))
+        if (await _leaveRequestsService.RequestDatesExceedAllocation(model))
         {
             ModelState.AddModelError(string.Empty, "You have exceeded your allocation");
             ModelState.AddModelError(nameof(model.EndDate), "The number of days requested is invalid");

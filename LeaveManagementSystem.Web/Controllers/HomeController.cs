@@ -1,6 +1,4 @@
-using System.Diagnostics;
-using LeaveManagementSystem.Web.Models;
-using Microsoft.AspNetCore.Mvc;
+using LeaveManagementSystem.Application.Models;
 
 namespace LeaveManagementSystem.Web.Controllers
 {
@@ -26,9 +24,9 @@ namespace LeaveManagementSystem.Web.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            var modelView = new ErrorViewModel 
-            { 
-                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier 
+            var modelView = new ErrorViewModel
+            {
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
             };
             return View();
         }

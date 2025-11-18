@@ -1,4 +1,5 @@
-﻿using LeaveManagementSystem.Web.Services.LeaveTypes;
+﻿using LeaveManagementSystem.Application.Services.LeaveTypes;
+using LeaveManagementSystem.Common.Static;
 
 namespace LeaveManagementSystem.Web.Controllers;
 

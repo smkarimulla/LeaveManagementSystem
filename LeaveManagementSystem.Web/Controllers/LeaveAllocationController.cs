@@ -1,9 +1,7 @@
-﻿using LeaveManagementSystem.Web.Models.LeaveAllocations;
-using LeaveManagementSystem.Web.Services.LeaveAllocations;
-using LeaveManagementSystem.Web.Services.LeaveTypes;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-
+﻿using LeaveManagementSystem.Application.Models.LeaveAllocations;
+using LeaveManagementSystem.Application.Services.LeaveAllocations;
+using LeaveManagementSystem.Application.Services.LeaveTypes;
+using LeaveManagementSystem.Common.Static;
 namespace LeaveManagementSystem.Web.Controllers
 {
     [Authorize]
@@ -22,18 +20,18 @@ namespace LeaveManagementSystem.Web.Controllers
         public async Task<IActionResult> AllocateLeave(string id)
         {
             await _leaveAllocationsService.AllocateLeave(id);
-            return RedirectToAction(nameof(Details), new {userId = id});
+            return RedirectToAction(nameof(Details), new { userId = id });
         }
 
         public async Task<IActionResult> EditAllocation(int? id)
         {
-            if(id == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
             var allocation = await _leaveAllocationsService.GetEmployeeAllocation(id.Value);
-            if(allocation == null)
+            if (allocation == null)
             {
                 return NotFound();
             }
@@ -59,7 +57,7 @@ namespace LeaveManagementSystem.Web.Controllers
             return View(allocation);
         }
         public async Task<IActionResult> Details(string? userid)
-        {            
+        {
             var employeeVM = await _leaveAllocationsService.GetEmployeeAllocations(userid);
             return View(employeeVM);
         }

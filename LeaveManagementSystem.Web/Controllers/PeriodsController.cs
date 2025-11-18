@@ -1,17 +1,18 @@
-﻿using LeaveManagementSystem.Web.Services.Periods;
+﻿using LeaveManagementSystem.Application.Services.Periods;
+using LeaveManagementSystem.Common.Static;
 
 namespace LeaveManagementSystem.Web.Controllers;
 
-[Authorize(Roles =Roles.Administrator)]
+[Authorize(Roles = Roles.Administrator)]
 public class PeriodsController(IPeriodsService periodsService) : Controller
-{    
+{
     private readonly IPeriodsService _periodsService = periodsService;
     public static string NameExistsValidationMessage = " period exists in the database";
 
     // GET: Periods
     public async Task<IActionResult> Index()
-    {       
-        var viewData =  await _periodsService.GetAll();
+    {
+        var viewData = await _periodsService.GetAll();
         if (viewData == null)
         {
             return null;
@@ -64,7 +65,7 @@ public class PeriodsController(IPeriodsService periodsService) : Controller
         {
             return NotFound();
         }
-        
+
         var viewPeriod = await _periodsService.Get<PeriodVM>(id.Value);
 
         if (viewPeriod == null)
@@ -86,7 +87,7 @@ public class PeriodsController(IPeriodsService periodsService) : Controller
             return NotFound();
         }
 
-        if(await _periodsService.CheckIfPeriodExistsForEdit(periodVM))
+        if (await _periodsService.CheckIfPeriodExistsForEdit(periodVM))
         {
             ModelState.AddModelError(nameof(periodVM.Name), NameExistsValidationMessage);
         }
@@ -95,7 +96,7 @@ public class PeriodsController(IPeriodsService periodsService) : Controller
         {
             try
             {
-               await _periodsService.Edit(periodVM);
+                await _periodsService.Edit(periodVM);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -140,5 +141,5 @@ public class PeriodsController(IPeriodsService periodsService) : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    
+
 }
