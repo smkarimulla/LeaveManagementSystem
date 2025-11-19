@@ -4,7 +4,7 @@ using LeaveManagementSystem.Common.Static;
 namespace LeaveManagementSystem.Web.Controllers;
 
 [Authorize(Roles = Roles.Administrator)]
-public class LeaveTypesController(ILeaveTypesService leaveTypeService) : Controller
+public class LeaveTypesController(ILeaveTypesService leaveTypeService, ILogger<LeaveTypesController> _logger) : Controller
 {
 
     public static string NameExistsValidationMessage = " This leave type exists in the database";
@@ -14,6 +14,7 @@ public class LeaveTypesController(ILeaveTypesService leaveTypeService) : Control
     // GET: LeaveTypes
     public async Task<IActionResult> Index()
     {
+        _logger.LogInformation("Leave Type Index Page is rendered");
         var viewData = await _leaveTypeService.GetAll();
         return View(viewData);
     }
